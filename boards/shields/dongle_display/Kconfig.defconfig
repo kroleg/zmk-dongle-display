@@ -22,6 +22,32 @@ config ZMK_DONGLE_DISPLAY_DONGLE_BATTERY
     bool "Show also the battery level of the dongle"
     depends on BT && (!ZMK_SPLIT_BLE || ZMK_SPLIT_ROLE_CENTRAL)
 
+config ZMK_DONGLE_DISPLAY_BATTERY_HORIZONTAL
+    bool "Display battery icon in horizontal orientation"
+    default n
+    help
+        Display the battery icon horizontally instead of vertically.
+
+config ZMK_DONGLE_DISPLAY_BATTERY_SHOW_PERCENT
+    bool "Show battery percentage text"
+    default y
+    help
+        Show the percentage text next to the battery icon.
+
+config ZMK_DONGLE_DISPLAY_BATTERY_WIDTH
+    int "Battery icon width in pixels"
+    default 12
+    range 10 32
+    help
+        Width of the battery icon in pixels (min 10).
+
+config ZMK_DONGLE_DISPLAY_BATTERY_HEIGHT
+    int "Battery icon height in pixels"
+    default 6
+    range 4 20
+    help
+        Height of the battery icon in pixels (min 4).
+
 config ZMK_DONGLE_DISPLAY_MAC_MODIFIERS
     bool "Use MacOS modifier symbols instead of the Windows symbols"
 

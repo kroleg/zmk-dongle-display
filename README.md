@@ -63,6 +63,29 @@ If you want to use MacOS modifier symbols instead of the Windows modifier symbol
 CONFIG_ZMK_DONGLE_DISPLAY_MAC_MODIFIERS=y
 ```
 
+### Battery display
+
+To display the battery icon horizontally instead of vertically:
+
+```ini
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_HORIZONTAL=y
+```
+
+To hide the percentage text next to the battery icon:
+
+```ini
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_SHOW_PERCENT=n
+```
+
+To set the battery icon size (width x height in pixels):
+
+```ini
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_WIDTH=16
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_HEIGHT=8
+```
+
+Default is 12x6. Minimum width is 10, minimum height is 4.
+
 ### Layer name display
 
 To set the text alignment for the layer name:
