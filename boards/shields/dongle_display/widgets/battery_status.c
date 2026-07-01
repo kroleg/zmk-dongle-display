@@ -97,7 +97,7 @@ static void draw_battery(lv_obj_t *canvas, uint8_t level, bool usb_present) {
     }
 #else
     // Vertical battery: terminal on top
-    // Terminal nub: 1/3 width centered, 2px tall
+    // Terminal nub: 2px tall, 1/3 width centered
     int term_width = BATTERY_WIDTH / 3;
     int term_x = (BATTERY_WIDTH - term_width) / 2;
     lv_canvas_draw_rect(canvas, term_x, 0, term_width, 2, &rect_fill_dsc);
@@ -116,7 +116,6 @@ static void draw_battery(lv_obj_t *canvas, uint8_t level, bool usb_present) {
     // Calculate fill based on level (fills from top, showing empty space at bottom)
     int fill_height = (fill_area_height * (100 - level)) / 100;
     if (usb_present) {
-        // When charging, draw outline instead of fill
         lv_canvas_draw_rect(canvas, 1, 3, fill_area_width, fill_height, &rect_outline_dsc);
     } else if (fill_height > 0) {
         lv_canvas_draw_rect(canvas, 1, 3, fill_area_width, fill_height, &rect_fill_dsc);
