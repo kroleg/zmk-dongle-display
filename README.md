@@ -99,6 +99,26 @@ If you want the widget not to measure WPM on specific layers
 CONFIG_ZMK_DONGLE_DISPLAY_WPM_DISABLED_LAYERS="layers" # comma separated
 ```
 
+The battery widget can be changed with these properties (shown with their defaults):
+
+```ini
+# CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_ICON_CLASSIC=y     # small vertical icon (default)
+# CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_ICON_HORIZONTAL=y  # horizontal icon with an outline
+# CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_ICON_NONE=y        # only the percentage
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_SHOW_PERCENT=y       # percentage next to the icon
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_SIDE_BY_SIDE=n       # batteries next to each other instead of one per row
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_SWAP_SIDES=n         # reverse the order (it's the order the peripherals were first paired in)
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_SHOW_DISCONNECTED=n  # an X for a peripheral that isn't connected, instead of nothing
+
+# with the horizontal icon
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_WIDTH=12             # pixels, including the terminal
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_HEIGHT=6
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_SEGMENTS=0           # split the fill into sections, 0 for a solid fill
+CONFIG_ZMK_DONGLE_DISPLAY_BATTERY_PERCENT_INSIDE=n     # the number inside the icon (try 32x12)
+```
+
+`tools/oled-sim/render.sh` shows how a combination looks, see [Previewing changes](#previewing-changes).
+
 ## Smaller OLEDs, with 128x32 pixels
 
 To allow smaller OLEDs, with 128x32 pixels, it will be necessary to exclude some widgets, like the bongo cat, active modifiers or the highest layer name. You can do it with the following config entries:

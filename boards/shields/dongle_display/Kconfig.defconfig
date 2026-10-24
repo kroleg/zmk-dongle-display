@@ -22,6 +22,69 @@ config ZMK_DONGLE_DISPLAY_DONGLE_BATTERY
     bool "Show also the battery level of the dongle"
     depends on BT && (!ZMK_SPLIT_BLE || ZMK_SPLIT_ROLE_CENTRAL)
 
+choice ZMK_DONGLE_DISPLAY_BATTERY_ICON
+    prompt "Battery icon"
+    default ZMK_DONGLE_DISPLAY_BATTERY_ICON_CLASSIC
+
+config ZMK_DONGLE_DISPLAY_BATTERY_ICON_CLASSIC
+    bool "Small vertical icon (5x8)"
+
+config ZMK_DONGLE_DISPLAY_BATTERY_ICON_HORIZONTAL
+    bool "Horizontal icon with an outline, sized by ZMK_DONGLE_DISPLAY_BATTERY_WIDTH/HEIGHT"
+
+config ZMK_DONGLE_DISPLAY_BATTERY_ICON_NONE
+    bool "No icon, only the percentage"
+
+endchoice
+
+if ZMK_DONGLE_DISPLAY_BATTERY_ICON_HORIZONTAL
+
+config ZMK_DONGLE_DISPLAY_BATTERY_WIDTH
+    int "Battery icon width in pixels, including the terminal"
+    default 12
+    range 10 40
+
+config ZMK_DONGLE_DISPLAY_BATTERY_HEIGHT
+    int "Battery icon height in pixels"
+    default 6
+    range 4 20
+
+config ZMK_DONGLE_DISPLAY_BATTERY_SEGMENTS
+    int "Split the fill into this many sections (0: solid fill)"
+    default 0
+    range 0 10
+    help
+        The sections are 1px apart from each other and from the outline.
+        Any charge above 0 lights at least one.
+
+config ZMK_DONGLE_DISPLAY_BATTERY_PERCENT_INSIDE
+    bool "Show the percentage inside the icon instead of a fill"
+    help
+        Needs an icon of about 32x12 to fit "100".
+
+endif
+
+config ZMK_DONGLE_DISPLAY_BATTERY_SHOW_PERCENT
+    bool "Show the battery percentage next to the icon"
+    default y
+    help
+        Always shown without an icon.
+
+config ZMK_DONGLE_DISPLAY_BATTERY_SIDE_BY_SIDE
+    bool "Show the batteries next to each other instead of one per row"
+    help
+        The first paired peripheral is on the left.
+
+config ZMK_DONGLE_DISPLAY_BATTERY_SWAP_SIDES
+    bool "Reverse the order of the peripherals' batteries"
+    help
+        Peripherals are ordered by when they were first paired with the dongle.
+        For a split keyboard whose right half was paired first, this puts the
+        left half first.
+
+config ZMK_DONGLE_DISPLAY_BATTERY_SHOW_DISCONNECTED
+    bool "Show an X for a peripheral that isn't connected, instead of hiding it"
+
 config ZMK_DONGLE_DISPLAY_MAC_MODIFIERS
     bool "Use MacOS modifier symbols instead of the Windows symbols"
 
