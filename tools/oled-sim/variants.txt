@@ -1,0 +1,7 @@
+# Sets of options render-variants.sh renders, one per line: <name> [CONFIG_...=value ...]
+# String values keep their double quotes.
+default
+mac-modifiers CONFIG_ZMK_DONGLE_DISPLAY_MAC_MODIFIERS=y
+wpm CONFIG_ZMK_DONGLE_DISPLAY_WPM=y
+no-bongo-cat CONFIG_ZMK_DONGLE_DISPLAY_BONGO_CAT=n
+layer-centered CONFIG_ZMK_DONGLE_DISPLAY_LAYER_TEXT_ALIGN="center"

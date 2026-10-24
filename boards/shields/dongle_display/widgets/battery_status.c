@@ -126,7 +126,7 @@ static struct battery_state peripheral_battery_status_get_state(const zmk_event_
 }
 
 static struct battery_state central_battery_status_get_state(const zmk_event_t *eh) {
-    const struct zmk_battery_state_changed *ev = as_zmk_battery_state_changed(eh);
+    const struct zmk_battery_state_changed *ev = eh ? as_zmk_battery_state_changed(eh) : NULL;
     return (struct battery_state) {
         .source = 0,
         .level = (ev != NULL) ? ev->state_of_charge : zmk_battery_state_of_charge(),
@@ -137,7 +137,8 @@ static struct battery_state central_battery_status_get_state(const zmk_event_t *
 }
 
 static struct battery_state battery_status_get_state(const zmk_event_t *eh) { 
-    if (as_zmk_peripheral_battery_state_changed(eh) != NULL) {
+    // eh is NULL on the initial refresh, and as_zmk_*() dereferences it
+    if (eh != NULL && as_zmk_peripheral_battery_state_changed(eh) != NULL) {
         return peripheral_battery_status_get_state(eh);
     } else {
         return central_battery_status_get_state(eh);

@@ -136,3 +136,7 @@ CONFIG_LV_Z_VDB_SIZE=32
 ## Alternatives
 - [Prospector](https://github.com/carrefinho/prospector) by @carrefinho
 - [YADS](https://github.com/janpfischer/zmk-dongle-screen) by @janpfischer
+
+## Previewing changes
+
+`tools/oled-sim/render.sh` renders the screen on your computer into PNGs, no flashing needed. See [tools/oled-sim](tools/oled-sim/README.md).

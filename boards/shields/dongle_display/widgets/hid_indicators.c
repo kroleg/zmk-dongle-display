@@ -13,6 +13,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/display.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/hid_indicators_changed.h>
+#include <zmk/hid_indicators.h>
 
 #include "hid_indicators.h"
 
@@ -55,9 +56,10 @@ void hid_indicators_update_cb(struct hid_indicators_state state) {
 }
 
 static struct hid_indicators_state hid_indicators_get_state(const zmk_event_t *eh) {
-    struct zmk_hid_indicators_changed *ev = as_zmk_hid_indicators_changed(eh);
+    // eh is NULL on the initial refresh, and as_zmk_*() dereferences it
+    struct zmk_hid_indicators_changed *ev = eh ? as_zmk_hid_indicators_changed(eh) : NULL;
     return (struct hid_indicators_state) {
-        .hid_indicators = ev->indicators,
+        .hid_indicators = ev ? ev->indicators : zmk_hid_indicators_get_current_profile(),
     };
 }
 
