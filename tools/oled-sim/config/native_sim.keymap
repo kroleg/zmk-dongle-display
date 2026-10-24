@@ -1,0 +1,41 @@
+// Stand-in keymap: the screen only shows layer names, so a few named layers are enough.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+
+/ {
+    chosen {
+        zephyr,display = &oled_sim;
+    };
+
+    // like a 128x64 SSD1306/SH1106
+    oled_sim: oled_sim {
+        compatible = "zmk,oled-sim";
+        width = <128>;
+        height = <64>;
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base {
+            display-name = "BASE";
+            bindings = <&kp A &kp B &kp C &kp D>;
+        };
+
+        lower {
+            display-name = "LOWER";
+            bindings = <&trans &trans &trans &trans>;
+        };
+
+        raise {
+            display-name = "RAISE";
+            bindings = <&trans &trans &trans &trans>;
+        };
+    };
+};
+
+// no key events: the scenario in module/scenario.c drives the screen and exits
+&kscan {
+    events = <0>;
+    /delete-property/ exit-after;
+};

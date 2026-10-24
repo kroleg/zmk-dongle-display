@@ -1,0 +1,5 @@
+description: In-memory monochrome display that prints its contents on request (host builds only)
+
+compatible: "zmk,oled-sim"
+
+include: display-controller.yaml

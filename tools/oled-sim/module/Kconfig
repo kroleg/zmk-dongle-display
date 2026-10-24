@@ -1,0 +1,4 @@
+config OLED_SIM
+    bool "Simulated OLED for native_posix renders"
+    default y
+    depends on DT_HAS_ZMK_OLED_SIM_ENABLED
