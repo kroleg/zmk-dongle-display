@@ -127,9 +127,9 @@ static void set_animation(lv_obj_t *animing, struct bongo_cat_wpm_status_state s
 }
 
 struct bongo_cat_wpm_status_state bongo_cat_wpm_status_get_state(const zmk_event_t *eh) {
-    struct zmk_wpm_state_changed *ev = as_zmk_wpm_state_changed(eh);
-    // Add NULL check to prevent crash if event is NULL
-    return (struct bongo_cat_wpm_status_state) { .wpm = ev ? ev->state : 0 };
+    // eh is NULL on the initial refresh, and as_zmk_*() dereferences it
+    struct zmk_wpm_state_changed *ev = eh ? as_zmk_wpm_state_changed(eh) : NULL;
+    return (struct bongo_cat_wpm_status_state) { .wpm = ev ? ev->state : zmk_wpm_get_state() };
 };
 
 void bongo_cat_wpm_status_update_cb(struct bongo_cat_wpm_status_state state) {
