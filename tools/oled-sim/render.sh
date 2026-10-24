@@ -4,6 +4,7 @@
 # Usage: tools/oled-sim/render.sh [CONFIG_...=y ...]
 #   Extra Kconfig options are added to the build, e.g.
 #   tools/oled-sim/render.sh CONFIG_ZMK_DONGLE_DISPLAY_MAC_MODIFIERS=y
+#   With OLED_SIM_NAME=<name> the frames go to tools/oled-sim/out/<name>/.
 #
 # Needs Docker. The first run sets up a ZMK workspace in tools/oled-sim/.workspace.
 set -e
@@ -14,7 +15,8 @@ ZMK_IMAGE=zmkfirmware/zmk-dev-arm:4.1-branch
 ZMK_REVISION=main
 
 conf="$SIM/.workspace/oled-sim.conf"
-mkdir -p "$SIM/.workspace" "$SIM/out"
+out="out/${OLED_SIM_NAME}"
+mkdir -p "$SIM/.workspace" "$SIM/$out"
 : > "$conf"  # config/native_sim.conf is picked up by ZMK itself
 for opt in "$@"; do echo "$opt" >> "$conf"; done
 
@@ -35,6 +37,6 @@ docker run --rm \
       -DEXTRA_CONF_FILE=/zmk-dongle-display/tools/oled-sim/.workspace/oled-sim.conf \
       '-DZMK_EXTRA_MODULES=/zmk-dongle-display;/zmk-dongle-display/tools/oled-sim/module'
     timeout 60 build/zephyr/zmk.exe > build/frames.txt
-    python3 /zmk-dongle-display/tools/oled-sim/render.py build/frames.txt /zmk-dongle-display/tools/oled-sim/out
+    python3 /zmk-dongle-display/tools/oled-sim/render.py build/frames.txt /zmk-dongle-display/tools/oled-sim/$out
   "
-echo "Frames: tools/oled-sim/out/ (all.png has every frame)"
+echo "Frames: tools/oled-sim/$out (all.png has every frame)"

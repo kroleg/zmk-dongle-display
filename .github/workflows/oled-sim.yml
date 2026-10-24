@@ -1,0 +1,47 @@
+# Renders the screen with tools/oled-sim for every set of options in
+# tools/oled-sim/variants.txt and uploads the frames as PNGs, so changes to the
+# widgets can be looked at without flashing.
+name: OLED preview
+
+on:
+  push:
+    paths:
+      - "boards/**"
+      - "tools/oled-sim/**"
+      - ".github/workflows/oled-sim.yml"
+  pull_request:
+    paths:
+      - "boards/**"
+      - "tools/oled-sim/**"
+      - ".github/workflows/oled-sim.yml"
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # the ZMK workspace takes a few minutes to download; refreshed weekly to follow ZMK main
+      - id: week
+        run: echo "week=$(date +%G-%V)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: |
+            tools/oled-sim/.workspace
+            !tools/oled-sim/.workspace/build
+          key: oled-sim-zmk-${{ steps.week.outputs.week }}-${{ hashFiles('tools/oled-sim/render.sh') }}
+
+      # one job for all variants: the image and workspace are set up once, each variant is a ~10s build
+      - run: tools/oled-sim/render-variants.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: oled-preview
+          path: tools/oled-sim/out/
+
+      - name: Summary
+        run: |
+          echo "### OLED preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "Frames are in the **oled-preview** artifact of this run, one folder per line of tools/oled-sim/variants.txt:" >> "$GITHUB_STEP_SUMMARY"
+          for d in tools/oled-sim/out/*/; do echo "- $(basename "$d")" >> "$GITHUB_STEP_SUMMARY"; done
