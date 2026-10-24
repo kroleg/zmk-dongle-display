@@ -33,3 +33,13 @@ replaced:
 
 The host build has no BLE, so the battery widget is sized for two peripherals with a define
 in `module/CMakeLists.txt`, and the scenario raises their battery events itself.
+
+## Variants
+
+`tools/oled-sim/render-variants.sh` renders every set of options in `variants.txt` into
+`out/<name>/`. Add a line there to cover a new option.
+
+## On GitHub
+
+`.github/workflows/oled-sim.yml` runs `render-variants.sh` on every push and pull request that
+touches the shield, and uploads `out/` as the **oled-preview** artifact of the run.
